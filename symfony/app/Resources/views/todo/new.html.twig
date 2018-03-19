@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<header class="panel-heading">
+    <h3 class="text-center">Todo creation</h3>
+</header>
+<div class="panel-body">
+
+    <div class="task-content">
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn btn-success btn-sm pull-left" type="submit" value="Create" />
+        {{ form_end(form) }}
+
+    </div>
+
+    <div class="add-task-row">
+        <a class="btn btn-primary btn-sm pull-left" href="{{ path('todo_index') }}">Back to the list</a>
+    </div>
+</div>
+
+{% endblock %}

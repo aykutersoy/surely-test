@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+    apache_php:
+        # image: php:7.0-apache
+        build:
+            context: apache_php
+            dockerfile: Dockerfile
+        ports:
+            - "8080:80"
+        volumes:
+            - ../symfony:/var/www/html
+            - ./apache_php/000-default.conf:/etc/apache2/sites-available/000-default.conf
+        networks: 
+            surely:
+                ipv4_address: 172.22.0.2
+        extra_hosts:
+            - "mysql-database:172.22.0.3"
+            
+
+    mysql:
+        image: mysql:latest
+        ports:
+            - "3366:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=12345678qQ
+        volumes:
+            - ../mysql:/var/lib/mysql
+        networks: 
+            surely:
+                ipv4_address: 172.22.0.3
+        extra_hosts:
+            - "apache-php:172.22.0.2"
+
+networks:
+    surely:
+        driver: bridge
+        driver_opts:
+            com.docker.network.enable_ipv6: "false"
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.22.0.0/24
+            
+# 
+# docker-compose -f docker-compose.yml up -d --build

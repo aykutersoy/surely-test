@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<header class="panel-heading">
+    <h3 class="text-center">Todo list</h3>
+</header>
+<div class="panel-body">
+
+    <div class="task-content">
+
+        <ul id="todo_list" class="task-list">
+            {% for todo in todos %}
+                {% if todo.isCompleted %}
+                    <li id="{{ todo.id }}" class="task-done">
+                {% else %}
+                    <li id="{{ todo.id }}">
+                {% endif %}
+                    <div class="task-title">
+                        <span class="task-title-sp">{{ todo.name }}</span>
+                        <div class="pull-right hidden-phone">
+                            <button
+                                id="complete{{ todo.id }}"
+                                class="btn btn-success btn-xs"
+                                onclick="todoComplete({{ todo.id }})"
+                                {% if todo.isCompleted %} disabled
+                                {% endif %}
+                            >
+                                <i class=" fa fa-check"></i>
+                            </button>
+                            <button
+                                id="edit{{ todo.id }}"
+                                class="btn btn-primary btn-xs"
+                                onclick="window.location.href=window.location.href + 'edit/' + {{ todo.id }}"
+                                {% if todo.isCompleted %} disabled
+                                {% endif %}
+                            >
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            {#<a#}
+                                {#class="btn btn-primary btn-xs"#}
+                                {#href="{{ path('todo_edit', { 'id': todo.id }) }}"#}
+                                {#{% if todo.isCompleted %} disabled#}
+                                {#{% endif %}#}
+                            {#>#}
+                                {#<i class="fa fa-pencil"></i>#}
+                            {#</a>#}
+
+                            <button
+                                class="btn btn-danger btn-xs"
+                                onclick="todoDelete({{ todo.id }})"
+                            >
+                                <i class="fa fa-trash-o "></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="add-task-row">
+        <a class="btn btn-success btn-sm pull-left" href="{{ path('todo_new') }}">Add New Task</a>
+    </div>
+</div>
+
+{% endblock %}
